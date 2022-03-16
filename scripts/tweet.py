@@ -1,17 +1,20 @@
 import sys
 import os
 import pickle
+import sysconfig
 import twitter_selenium
 
-if not os.path.isfile("session.pkl"):
+sessionfile = sysconfig.get_paths()["purelib"]+"/twitter_selenium/session.pkl"
+
+if not os.path.isfile(sessionfile):
   username = input("Enter username or email: ")
   password = input("Enter password: ")
   session = twitter_selenium.TwitterSession(username,password)
-  f = open("session.pkl","wb")
+  f = open(sessionfile)
   pickle.dump(session.cookies,f)
   f.close()
 else:
-  cookies = pickle.load("session.pkl")
+  cookies = pickle.load(sessionfile)
   session = twitter_selenium.TwitterSession(cookies=cookies)
 
 try:
