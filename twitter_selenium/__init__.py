@@ -49,7 +49,7 @@ class TwitterSession:
     elem = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[name=password]")))
     elem.send_keys(password)
     elem.send_keys(Keys.RETURN)
-    WebDriverWait(self.driver, 5).until(EC.title_contains("Home / Twitter"))
+    WebDriverWait(self.driver, 20).until(EC.title_contains("Home / Twitter"))
     self.cookies = self.driver.get_cookies()
   def close(self):
     self.driver.close()
