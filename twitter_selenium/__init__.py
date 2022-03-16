@@ -65,7 +65,7 @@ class TwitterSession:
       for i in media:
         path = FixPath(i)
         mediainput.send_keys(path)
-        WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div[aria-valuenow=0]")))
+        WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, "//div[@aria-valuenow='0']")))
     try:
       tweetbutton.click()
     except:
