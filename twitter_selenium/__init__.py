@@ -23,7 +23,7 @@ def LoadSessionFile(sessionfile=sysconfig.get_paths()["purelib"]+"/twitter_selen
   else:
     f = open(sessionfile,"rb")
     cookies = pickle.load(f)
-    session = twitter_selenium.TwitterSession(cookies=cookies)
+    session = TwitterSession(cookies=cookies)
   return session
 
 class TwitterSession:
