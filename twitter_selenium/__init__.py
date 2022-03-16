@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import os
 import sysconfig
 import pickle
+drivers = {"firefox": webdriver.Firefox, "chrome": webdriver.Chrome}
 
 def FixPath(path):
   if not path.startswith("/") or not path.startswith("C:\\"):
@@ -29,8 +30,8 @@ def LoadSessionFile(sessionfile=sysconfig.get_paths()["purelib"]+"/twitter_selen
   return session
 
 class TwitterSession:
-  driver = webdriver.Firefox()
-  def __init__(self,username=None,password=None,cookies=None):
+  def __init__(self,username=None,password=None,cookies=None,driver="firefox"):
+    self.driver = drivers[driver]()
     if cookies == None:
       self.login(username,password)
     else:
