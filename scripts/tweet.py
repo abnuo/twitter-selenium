@@ -14,7 +14,8 @@ if not os.path.isfile(sessionfile):
   pickle.dump(session.cookies,f)
   f.close()
 else:
-  cookies = pickle.load(sessionfile)
+  f = open(sessionfile,"rb")
+  cookies = pickle.load(f)
   session = twitter_selenium.TwitterSession(cookies=cookies)
 
 try:
