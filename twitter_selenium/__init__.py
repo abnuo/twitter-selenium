@@ -4,12 +4,27 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 import os
+import sysconfig
 
 def FixPath(path):
   if not path.startswith("/") or not path.startswith("C:\\"):
     return os.getcwd() + "\\" + path
   else:
     return path
+
+def LoadSessionFile(sessionfile=sysconfig.get_paths()["purelib"]+"/twitter_selenium/session.pkl"):
+  if not os.path.isfile(sessionfile):
+    username = input("Enter username or email: ")
+    password = input("Enter password: ")
+    session = twitter_selenium.TwitterSession(username,password)
+    f = open(sessionfile,"wb")
+    pickle.dump(session.cookies,f)
+    f.close()
+  else:
+    f = open(sessionfile,"rb")
+    cookies = pickle.load(f)
+    session = twitter_selenium.TwitterSession(cookies=cookies)
+  return session
 
 class TwitterSession:
   driver = webdriver.Firefox()
