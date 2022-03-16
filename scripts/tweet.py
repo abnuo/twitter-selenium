@@ -24,3 +24,4 @@ except:
 
 print(f"Tweeting -> {text}")
 session.tweet(text)
+session.close()
