@@ -97,8 +97,9 @@ class TwitterSession:
     likebutton.click()
   def gettweet(self,id):
     self.driver.get(f"https://twitter.com/i/status/{id}")
-    WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "meta[property='og:description']")))
-    source = self.driver.page_source
-    soup = BeautifulSoup(source)
-    description = soup.find("meta",{"property":"og:description"})
-    return description["content"][1:-1]
+    description = None
+    while True:
+      description = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "meta[property='og:description']")))
+      if not description.get_attribute("content") == "":
+        break
+    return description.get_attribute("content")[1:-1]
