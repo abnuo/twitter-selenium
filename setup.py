@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
    name="twitter-selenium",
-   version="3.0",
+   version="2.1",
    description="Tweeting with selenium",
    packages=["twitter_selenium"],
    install_requires=["selenium","BeautifulSoup4"],
