@@ -100,5 +100,5 @@ class TwitterSession:
     WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "meta[property='og:description']")))
     source = self.driver.page_source
     soup = BeautifulSoup(source)
-    description = soup.find_all("meta",{"property":"og:description"})
+    description = soup.find("meta",{"property":"og:description"})
     return description["content"][1:-1]
