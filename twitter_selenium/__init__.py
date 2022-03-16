@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from bs4 import BeautifulSoup
 import os
 import sysconfig
 import pickle
@@ -96,5 +97,8 @@ class TwitterSession:
     likebutton.click()
   def gettweet(self,id):
     self.driver.get(f"https://twitter.com/i/status/{id}")
-    description = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "meta[property=og:description]")))
-    return description.get_attribute("content")[1:-1]
+    WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "meta[property='og:description']")))
+    source = self.driver.page_source
+    soup = BeautifulSoup(source)
+    description = soup.find_all("meta",{"property":"og:description"})
+    return description["content"][1:-1]
