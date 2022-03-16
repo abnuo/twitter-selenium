@@ -32,6 +32,7 @@ def LoadSessionFile(sessionfile=sysconfig.get_paths()["purelib"]+"/twitter_selen
 class TwitterSession:
   def __init__(self,username=None,password=None,cookies=None,driver="firefox",options=None):
     self.driver = drivers[driver](options=options)
+    self.wait = WebDriverWait(self.driver, 50)
     if cookies == None:
       self.login(username,password)
     else:
@@ -42,14 +43,14 @@ class TwitterSession:
       self.home()
   def login(self,username,password):
     self.driver.get("https://twitter.com/i/flow/login")
-    elem = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[autocomplete=username]")))
+    elem = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "[autocomplete=username]")))
     elem.click()
     elem.send_keys(username)
     elem.send_keys(Keys.RETURN)
-    elem = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[name=password]")))
+    elem = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "[name=password]")))
     elem.send_keys(password)
     elem.send_keys(Keys.RETURN)
-    WebDriverWait(self.driver, 20).until(EC.title_contains("Home / Twitter"))
+    self.wait.until(EC.title_contains("Home / Twitter"))
     self.cookies = self.driver.get_cookies()
   def close(self):
     self.driver.close()
@@ -57,9 +58,9 @@ class TwitterSession:
     self.driver.get("https://twitter.com/home")
   def tweet(self,text,media=None):
     self.home()
-    tweetinput = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".notranslate.public-DraftEditor-content")))
-    tweetbutton = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid=tweetButtonInline]")))#//span[text()='Tweet']")))
-    mediainput = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid=fileInput]")))
+    tweetinput = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".notranslate.public-DraftEditor-content")))
+    tweetbutton = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid=tweetButtonInline]")))#//span[text()='Tweet']")))
+    mediainput = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid=fileInput]")))
     tweetinput.click()
     tweetinput.send_keys(text)
     if not media == None:
@@ -71,36 +72,36 @@ class TwitterSession:
       tweetbutton.click()
     except:
       self.driver.execute_script("arguments[0].click();", tweetbutton)
-    return WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, "//a[contains(@class, 'css-4rbku5 css-18t94o4 css-901oao r-1kihuf0 r-jwli3a r-1loqt21 r-37j5jr r-a023e6 r-b88u0q r-rjixqe r-1b7u577 r-bcqeeo r-3s2u2q r-qvutc0')]"))).get_attribute("href")
+    return self.wait.until(EC.presence_of_element_located((By.XPATH, "//a[contains(@class, 'css-4rbku5 css-18t94o4 css-901oao r-1kihuf0 r-jwli3a r-1loqt21 r-37j5jr r-a023e6 r-b88u0q r-rjixqe r-1b7u577 r-bcqeeo r-3s2u2q r-qvutc0')]"))).get_attribute("href")
   def like(self,id):
     self.driver.get(f"https://twitter.com/i/status/{id}")
-    likebutton = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[aria-label=Like]")))
+    likebutton = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "[aria-label=Like]")))
     likebutton.click()
   def retweet(self,id):
     self.driver.get(f"https://twitter.com/i/status/{id}")
-    rtbutton = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[aria-label=Retweet]")))
+    rtbutton = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "[aria-label=Retweet]")))
     rtbutton.click()
   def unlike(self,id):
     self.driver.get(f"https://twitter.com/i/status/{id}")
-    likebutton = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[aria-label=Liked]")))
+    likebutton = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "[aria-label=Liked]")))
     likebutton.click()
   def unretweet(self,id):
     self.driver.get(f"https://twitter.com/i/status/{id}")
-    rtbutton = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[aria-label=Retweeted]")))
+    rtbutton = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "[aria-label=Retweeted]")))
     rtbutton.click()
   def follow(self,username):
     self.driver.get(f"https://twitter.com/{username}")
-    likebutton = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, f"[aria-label='Follow @{username}' i]")))
+    likebutton = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, f"[aria-label='Follow @{username}' i]")))
     likebutton.click()
   def unfollow(self,username):
     self.driver.get(f"https://twitter.com/{username}")
-    likebutton = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, f"[aria-label='Following @{username}' i]")))
+    likebutton = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, f"[aria-label='Following @{username}' i]")))
     likebutton.click()
   def gettweet(self,id):
     self.driver.get(f"https://twitter.com/i/status/{id}")
     description = None
     while True:
-      description = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "meta[property='og:description']")))
+      description = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "meta[property='og:description']")))
       if not description.get_attribute("content") == "":
         break
     return description.get_attribute("content")[1:-1]
