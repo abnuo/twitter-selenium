@@ -96,4 +96,4 @@ class TwitterSession:
     likebutton.click()
   def gettweet(self,id):
     self.driver.get(f"https://twitter.com/i/status/{id}")
-    return self.driver.find_element(By.XPATH("//meta[@name='description']")).get_attribute("content")[1:-1]
+    return self.driver.find_element(By.XPATH,"//meta[@name='description']").get_attribute("content")[1:-1]
