@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 import os
 import sysconfig
+import pickle
 
 def FixPath(path):
   if not path.startswith("/") or not path.startswith("C:\\"):
