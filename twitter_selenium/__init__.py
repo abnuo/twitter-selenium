@@ -34,7 +34,7 @@ class TwitterSession:
     if not path == None:
       self.driver = drivers[driver](options=options,executable_path=path)
     else:
-      drivers[driver](options=options)
+      self.driver = drivers[driver](options=options)
     self.wait = WebDriverWait(self.driver, 50)
     if cookies == None:
       self.login(username,password)
