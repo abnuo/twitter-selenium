@@ -55,9 +55,9 @@ class TwitterSession:
     elem.send_keys(password)
     elem.send_keys(Keys.RETURN)
     try:
-      self.wait.until(EC.title_contains("Home / Twitter"))
+      WebDriverWait(self.driver, 5).until(EC.title_contains("Home / Twitter"))
     except:
-      elem = driver.switch_to.active_element
+      elem = self.driver.switch_to.active_element
       elem.send_keys(securityquestion)
     self.cookies = self.driver.get_cookies()
   def close(self):
