@@ -31,14 +31,14 @@ def LoadSessionFile(sessionfile=sysconfig.get_paths()["purelib"]+"/twitter_selen
   return session
 
 class TwitterSession:
-  def __init__(self,username=None,password=None,cookies=None,driver="firefox",options=None,path=None):
+  def __init__(self,username=None,password=None,securityquestion=None,cookies=None,driver="firefox",options=None,path=None):
     if not path == None:
       self.driver = drivers[driver](options=options,executable_path=path)
     else:
       self.driver = drivers[driver](options=options)
     self.wait = WebDriverWait(self.driver, 50)
     if cookies == None:
-      self.login(username,password)
+      self.login(username,password,securityquestion)
     else:
       self.home()
       for i in cookies:
