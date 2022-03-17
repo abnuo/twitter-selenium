@@ -15,18 +15,18 @@ def FixPath(path):
   else:
     return path
 
-def LoadSessionFile(sessionfile=sysconfig.get_paths()["purelib"]+"/twitter_selenium/session.pkl",path=None):
+def LoadSessionFile(sessionfile=sysconfig.get_paths()["purelib"]+"/twitter_selenium/session.pkl",driver="firefox",path=None):
   if not os.path.isfile(sessionfile):
     username = input("Enter username or email: ")
     password = input("Enter password: ")
-    session = TwitterSession(username,password,path=path)
+    session = TwitterSession(username,password,driver=driver,path=path)
     f = open(sessionfile,"wb")
     pickle.dump(session.cookies,f)
     f.close()
   else:
     f = open(sessionfile,"rb")
     cookies = pickle.load(f)
-    session = TwitterSession(cookies=cookies)
+    session = TwitterSession(cookies=cookies,driver=driver,path=path)
   return session
 
 class TwitterSession:
