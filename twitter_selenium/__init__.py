@@ -19,7 +19,7 @@ def LoadSessionFile(sessionfile=sysconfig.get_paths()["purelib"]+"/twitter_selen
   if not os.path.isfile(sessionfile):
     username = input("Enter username or email: ")
     password = input("Enter password: ")
-    session = TwitterSession(username,password,path=Path)
+    session = TwitterSession(username,password,path=path)
     f = open(sessionfile,"wb")
     pickle.dump(session.cookies,f)
     f.close()
