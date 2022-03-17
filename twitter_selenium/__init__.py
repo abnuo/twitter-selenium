@@ -44,7 +44,7 @@ class TwitterSession:
         self.driver.add_cookie(i)
       self.cookies = self.driver.get_cookies()
       self.home()
-  def login(self,username,password):
+  def login(self,username,password,securityquestion=""):
     self.driver.get("https://twitter.com/i/flow/login")
     elem = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "[autocomplete=username]")))
     elem.click()
@@ -53,7 +53,11 @@ class TwitterSession:
     elem = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "[name=password]")))
     elem.send_keys(password)
     elem.send_keys(Keys.RETURN)
-    self.wait.until(EC.title_contains("Home / Twitter"))
+    try:
+      self.wait.until(EC.title_contains("Home / Twitter"))
+    except:
+      elem = driver.switch_to.active_element
+      elem.send_keys(securityquestion)
     self.cookies = self.driver.get_cookies()
   def close(self):
     self.driver.close()
